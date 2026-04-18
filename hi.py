@@ -1,0 +1,1 @@
+print("goo goo ga ga")

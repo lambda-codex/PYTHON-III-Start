@@ -1,0 +1,832 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lato:wght@300;400;700&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body { background: #f5efe0; font-family: 'Lato', sans-serif; }
+
+  .app-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    background: #f5efe0;
+    padding: 20px 0;
+  }
+
+  .phone {
+    width: 360px;
+    min-height: 700px;
+    background: #fdf8f0;
+    border-radius: 32px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+  }
+
+  .screen {
+    display: none;
+    width: 100%;
+    min-height: 700px;
+    flex-direction: column;
+    align-items: center;
+    background: #fdf8f0;
+    padding: 0;
+    animation: fadeIn 0.35s ease;
+  }
+  .screen.active { display: flex; }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ── SPLASH ── */
+  #screen-splash {
+    background: #fdf8f0;
+    justify-content: center;
+    align-items: center;
+  }
+  .splash-logo { width: 200px; animation: splashPop 0.8s cubic-bezier(.34,1.56,.64,1) forwards; }
+  @keyframes splashPop {
+    0% { opacity:0; transform: scale(0.5) rotate(-10deg); }
+    100% { opacity:1; transform: scale(1) rotate(0deg); }
+  }
+  .splash-tagline {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    color: #7a6a3a;
+    letter-spacing: 3px;
+    margin-top: 14px;
+    opacity: 0;
+    animation: fadeIn 0.6s 0.9s forwards;
+  }
+  .splash-bar {
+    width: 120px; height: 3px;
+    background: linear-gradient(90deg, #8a3a2a, #5a7a3a);
+    border-radius: 2px;
+    margin-top: 18px;
+    opacity: 0;
+    animation: fadeIn 0.5s 1.1s forwards;
+  }
+
+  /* ── LOGO HEADER ── */
+  .logo-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 32px 20px 16px;
+  }
+  .logo-header img { width: 160px; }
+
+  /* ── SIGN UP / LOGIN ── */
+  .auth-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 900;
+    color: #1a1a1a;
+    letter-spacing: 1px;
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  .auth-form { width: 100%; padding: 0 24px; display: flex; flex-direction: column; gap: 16px; }
+
+  .field-group { display: flex; flex-direction: column; gap: 5px; }
+  .field-label { font-size: 13px; font-weight: 700; color: #555; letter-spacing: 0.5px; }
+  .field-input {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1.5px solid #d4c9a8;
+    border-radius: 6px;
+    background: #fff;
+    font-size: 15px;
+    color: #222;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .field-input:focus { border-color: #5a7a3a; }
+
+  .forgot-link {
+    font-size: 12px;
+    color: #8a3a2a;
+    text-align: right;
+    cursor: pointer;
+    text-decoration: underline;
+    margin-top: -8px;
+  }
+
+  .btn-primary {
+    width: 100%;
+    padding: 13px;
+    background: #5a7a3a;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    margin-top: 4px;
+  }
+  .btn-primary:hover { background: #4a6a2a; }
+  .btn-primary:active { transform: scale(0.98); }
+
+  .btn-secondary {
+    width: 100%;
+    padding: 13px;
+    background: transparent;
+    color: #333;
+    border: 1.5px solid #c0b898;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .btn-secondary:hover { background: #f0e8d0; }
+
+  .btn-danger {
+    width: 100%;
+    padding: 13px;
+    background: #8a3a2a;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+  }
+  .btn-danger:hover { background: #7a2a1a; }
+  .btn-danger:active { transform: scale(0.98); }
+
+  .btn-dark {
+    width: 100%;
+    padding: 13px;
+    background: #1a1a1a;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .btn-dark:hover { background: #333; }
+
+  .btn-whatsapp {
+    width: 100%;
+    padding: 13px;
+    background: #25D366;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: background 0.2s;
+  }
+  .btn-whatsapp:hover { background: #1ab855; }
+
+  /* ── HOMEPAGE ── */
+  .welcome-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 38px;
+    font-weight: 900;
+    color: #1a1a1a;
+    text-align: center;
+    margin-bottom: 28px;
+  }
+  .home-buttons { width: 100%; padding: 0 24px; display: flex; flex-direction: column; gap: 12px; }
+  .home-footer { margin-top: auto; width: 100%; padding: 20px 24px; border-top: 1px solid #e8dfc8; }
+
+  /* ── ORDERING ── */
+  .ordering-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 30px;
+    font-weight: 900;
+    color: #1a1a1a;
+    text-align: center;
+    margin-bottom: 8px;
+  }
+  .pizza-list { width: 100%; padding: 0 16px; display: flex; flex-direction: column; gap: 16px; }
+  .pizza-card {
+    width: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid #e0d8c0;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .pizza-card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.12); }
+  .pizza-card img { width: 100%; height: 160px; object-fit: cover; display: block; }
+  .pizza-card-info { padding: 10px 14px 12px; text-align: center; }
+  .pizza-name { font-weight: 900; font-size: 14px; letter-spacing: 1px; color: #1a1a1a; text-transform: uppercase; }
+  .pizza-desc { font-size: 12px; color: #777; margin: 3px 0 6px; }
+  .pizza-price { font-size: 18px; font-weight: 700; color: #1a1a1a; }
+
+  .screen-scroll {
+    overflow-y: auto;
+    max-height: 700px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 20px;
+  }
+
+  /* ── INGREDIENTS ── */
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: #1a1a1a;
+    text-align: center;
+    padding: 0 20px;
+    margin-bottom: 12px;
+  }
+  .ingr-list { width: 100%; padding: 0 16px; display: flex; flex-direction: column; gap: 12px; }
+  .ingr-card {
+    width: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #fff;
+    border: 1.5px solid #e0d8c0;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.15s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .ingr-card.selected { border-color: #5a7a3a; background: #f0f7e8; }
+  .ingr-card img { width: 100%; height: 120px; object-fit: cover; display: block; }
+  .ingr-card-info { padding: 8px 12px; text-align: center; }
+  .ingr-name { font-weight: 900; font-size: 13px; letter-spacing: 1px; text-transform: uppercase; color: #1a1a1a; }
+  .ingr-price { font-size: 13px; color: #555; }
+
+  /* ── SUMMARY / PAYMENT ── */
+  .summary-box {
+    width: calc(100% - 32px);
+    background: #fff;
+    border: 1px solid #e0d8c0;
+    border-radius: 10px;
+    padding: 16px;
+    margin: 0 16px 16px;
+  }
+  .summary-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #444;
+    padding: 5px 0;
+    border-bottom: 1px solid #f0e8d0;
+  }
+  .summary-row:last-child { border-bottom: none; }
+  .summary-total {
+    display: flex;
+    justify-content: space-between;
+    font-size: 18px;
+    font-weight: 700;
+    color: #1a1a1a;
+    padding: 10px 0 0;
+    margin-top: 4px;
+    border-top: 2px solid #1a1a1a;
+  }
+
+  .payment-badge {
+    background: #fff8e8;
+    border: 1.5px solid #d4c060;
+    border-radius: 8px;
+    padding: 14px 16px;
+    width: calc(100% - 32px);
+    margin: 0 16px 16px;
+    text-align: center;
+  }
+  .payment-badge-icon { font-size: 24px; margin-bottom: 4px; }
+  .payment-badge-title { font-weight: 700; font-size: 15px; color: #7a5a10; }
+  .payment-badge-sub { font-size: 12px; color: #9a7a30; margin-top: 2px; }
+
+  /* ── ORDER COMPLETE ── */
+  .complete-circle {
+    width: 90px; height: 90px;
+    background: #5a7a3a;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 18px;
+    animation: popIn 0.5s cubic-bezier(.34,1.56,.64,1);
+  }
+  @keyframes popIn { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  .checkmark { width: 44px; height: 44px; stroke: #fff; stroke-width: 3; fill: none; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 60; stroke-dashoffset: 60; animation: draw 0.4s 0.4s ease forwards; }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+  .complete-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 30px;
+    font-weight: 900;
+    color: #1a1a1a;
+    text-align: center;
+    margin-bottom: 6px;
+  }
+  .complete-sub { font-size: 14px; color: #777; text-align: center; margin-bottom: 28px; padding: 0 24px; }
+
+  /* ── FORGOT PASSWORD ── */
+  .info-text { font-size: 14px; color: #555; text-align: center; padding: 0 24px; margin-bottom: 20px; line-height: 1.6; }
+
+  /* ── ORDER STATUS ── */
+  .status-steps { width: calc(100% - 32px); margin: 0 16px 16px; }
+  .status-step {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 0;
+    border-bottom: 1px solid #f0e8d0;
+  }
+  .step-dot {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .step-dot.done { background: #5a7a3a; }
+  .step-dot.pending { background: #d4c9a8; }
+  .step-label { font-size: 14px; color: #444; }
+  .step-label.done { color: #1a1a1a; font-weight: 600; }
+
+  .divider { width: calc(100% - 32px); height: 1px; background: #e8dfc8; margin: 8px 16px; }
+
+  .screen-inner { width: 100%; display: flex; flex-direction: column; align-items: center; flex: 1; }
+</style>
+
+<div class="app-wrapper">
+  <div class="phone">
+
+    <!-- SPLASH -->
+    <div class="screen active" id="screen-splash" style="justify-content:center;align-items:center;gap:0;">
+      <img src="https://i.imgur.com/placeholder.png" class="splash-logo" id="splash-logo-img" alt="D'Ouro Express" onerror="this.style.display='none'; document.getElementById('splash-text').style.display='block';">
+      <div id="splash-text" style="display:none; text-align:center;">
+        <div style="font-family:'Playfair Display',serif; font-size:32px; font-weight:900; color:#8a3a2a;">D'Ouro</div>
+        <div style="font-family:'Playfair Display',serif; font-size:18px; font-weight:700; color:#5a7a3a; letter-spacing:4px;">EXPRESS</div>
+      </div>
+      <div id="splash-svg" style="text-align:center; animation: splashPop 0.8s cubic-bezier(.34,1.56,.64,1) forwards;">
+        <svg width="200" height="110" viewBox="0 0 200 110" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="100" cy="55" rx="95" ry="50" fill="#fdf8f0" stroke="#d4c9a8" stroke-width="1"/>
+          <text x="100" y="35" text-anchor="middle" font-family="Playfair Display,serif" font-size="28" font-weight="900" fill="#8a3a2a">D'Ouro</text>
+          <rect x="30" y="42" width="140" height="1.5" fill="#8a3a2a" rx="1"/>
+          <text x="100" y="62" text-anchor="middle" font-family="Lato,sans-serif" font-size="13" font-weight="700" fill="#5a7a3a" letter-spacing="4">EXPRESS</text>
+          <circle cx="60" cy="82" r="12" fill="#5a7a3a"/>
+          <circle cx="60" cy="82" r="6" fill="#fdf8f0"/>
+          <rect x="50" y="70" width="30" height="14" rx="3" fill="#7a9a5a"/>
+          <rect x="72" y="68" width="18" height="10" rx="2" fill="#8a3a2a"/>
+          <rect x="30" y="76" width="22" height="6" rx="3" fill="#5a7a3a"/>
+          <circle cx="38" cy="85" r="5" fill="#3a5a2a"/>
+          <circle cx="38" cy="85" r="2" fill="#fdf8f0"/>
+          <circle cx="78" cy="85" r="5" fill="#3a5a2a"/>
+          <circle cx="78" cy="85" r="2" fill="#fdf8f0"/>
+        </svg>
+      </div>
+      <p class="splash-tagline">TRATTORIA D'OURO</p>
+      <div class="splash-bar"></div>
+    </div>
+
+    <!-- SIGN UP -->
+    <div class="screen" id="screen-signup">
+      <div class="screen-scroll">
+        <div class="logo-header"><div id="logo-signup"></div></div>
+        <p class="auth-title">SIGN UP</p>
+        <div class="auth-form">
+          <div class="field-group">
+            <label class="field-label">E-Mail</label>
+            <input class="field-input" type="email" id="signup-email" placeholder="o.seu@email.com">
+          </div>
+          <div class="field-group">
+            <label class="field-label">Password</label>
+            <input class="field-input" type="password" id="signup-pass" placeholder="Mínimo 6 caracteres">
+          </div>
+          <div class="field-group">
+            <label class="field-label">Confirmar Password</label>
+            <input class="field-input" type="password" id="signup-pass2" placeholder="Repetir password">
+          </div>
+          <div id="signup-error" style="color:#8a3a2a;font-size:12px;display:none;"></div>
+          <button class="btn-primary" onclick="doSignup()">Sign Up</button>
+          <button class="btn-secondary" onclick="go('screen-login')">Log In</button>
+        </div>
+        <div style="height:30px;"></div>
+      </div>
+    </div>
+
+    <!-- LOGIN -->
+    <div class="screen" id="screen-login">
+      <div class="screen-scroll">
+        <div class="logo-header"><div id="logo-login"></div></div>
+        <div style="height:10px;"></div>
+        <div class="auth-form">
+          <div class="field-group">
+            <label class="field-label">E-Mail</label>
+            <input class="field-input" type="email" id="login-email" placeholder="o.seu@email.com">
+          </div>
+          <div class="field-group">
+            <label class="field-label">Password</label>
+            <input class="field-input" type="password" id="login-pass" placeholder="A sua password">
+          </div>
+          <div class="forgot-link" onclick="go('screen-forgot')">Esqueceu a password?</div>
+          <div id="login-error" style="color:#8a3a2a;font-size:12px;display:none;"></div>
+          <button class="btn-primary" onclick="doLogin()">Log In</button>
+          <button class="btn-secondary" onclick="go('screen-signup')">Criar Conta</button>
+        </div>
+        <div style="height:30px;"></div>
+      </div>
+    </div>
+
+    <!-- FORGOT PASSWORD -->
+    <div class="screen" id="screen-forgot">
+      <div class="screen-scroll">
+        <div class="logo-header"><div id="logo-forgot"></div></div>
+        <p class="auth-title" style="font-size:24px;">Recuperar Password</p>
+        <p class="info-text">Introduza o seu e-mail e iremos enviar um link para redefinir a sua password.</p>
+        <div class="auth-form">
+          <div class="field-group">
+            <label class="field-label">E-Mail</label>
+            <input class="field-input" type="email" id="forgot-email" placeholder="o.seu@email.com">
+          </div>
+          <div id="forgot-msg" style="color:#5a7a3a;font-size:13px;display:none;text-align:center;">Link enviado! Verifique o seu e-mail.</div>
+          <button class="btn-primary" onclick="doForgot()">Enviar Link</button>
+          <button class="btn-secondary" onclick="go('screen-login')">Voltar ao Login</button>
+        </div>
+        <div style="height:30px;"></div>
+      </div>
+    </div>
+
+    <!-- HOMEPAGE -->
+    <div class="screen" id="screen-home">
+      <div class="screen-inner" style="justify-content:center; padding: 0 0 20px;">
+        <div class="logo-header"><div id="logo-home"></div></div>
+        <p class="welcome-title">WELCOME!</p>
+        <div class="home-buttons">
+          <button class="btn-danger" onclick="go('screen-ordering')">Place An Order</button>
+          <button class="btn-primary" onclick="go('screen-status')">Check Order Status</button>
+        </div>
+        <div class="home-footer">
+          <button class="btn-secondary" onclick="doLogout()">Log Out</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ORDERING -->
+    <div class="screen" id="screen-ordering">
+      <div class="screen-scroll">
+        <div class="logo-header" style="padding-bottom:4px;"><div id="logo-ordering"></div></div>
+        <p class="ordering-title">Ordering</p>
+        <div class="pizza-list" id="pizza-list"></div>
+        <div style="height:16px;"></div>
+        <div style="padding: 0 16px; width:100%;">
+          <button class="btn-dark" onclick="go('screen-home')">Go Back</button>
+        </div>
+        <div style="height:20px;"></div>
+      </div>
+    </div>
+
+    <!-- INGREDIENTS QUESTION -->
+    <div class="screen" id="screen-ingr-question">
+      <div class="screen-inner" style="justify-content:center; padding:0 24px; gap:14px;">
+        <div class="logo-header"><div id="logo-ingrq"></div></div>
+        <p class="section-title" style="font-size:22px; margin-bottom:4px;">Gostaria de adicionar<br>mais ingredientes?</p>
+        <button class="btn-primary" onclick="go('screen-ingredients')">Sim</button>
+        <button class="btn-danger" onclick="goToSummary(false)">Não</button>
+        <button class="btn-dark" onclick="go('screen-ordering')">Go back</button>
+      </div>
+    </div>
+
+    <!-- INGREDIENTS LIST -->
+    <div class="screen" id="screen-ingredients">
+      <div class="screen-scroll">
+        <div class="logo-header" style="padding-bottom:4px;"><div id="logo-ingr"></div></div>
+        <p class="section-title">Selecionar Ingredientes Extras</p>
+        <div class="ingr-list" id="ingr-list"></div>
+        <div style="height:16px;"></div>
+        <div style="padding:0 16px; width:100%; display:flex; flex-direction:column; gap:10px;">
+          <button class="btn-primary" onclick="goToSummary(true)">Confirmar</button>
+          <button class="btn-dark" onclick="go('screen-ingr-question')">Go Back</button>
+        </div>
+        <div style="height:20px;"></div>
+      </div>
+    </div>
+
+    <!-- SUMMARY / VALOR FINAL -->
+    <div class="screen" id="screen-summary">
+      <div class="screen-scroll">
+        <div class="logo-header" style="padding-bottom:4px;"><div id="logo-summary"></div></div>
+        <p class="ordering-title">Resumo do Pedido</p>
+        <div class="summary-box" id="summary-box"></div>
+        <div class="payment-badge">
+          <div class="payment-badge-icon">🛵</div>
+          <div class="payment-badge-title">Pagamento na Entrega</div>
+          <div class="payment-badge-sub">O pagamento será efectuado quando o estafeta chegar</div>
+        </div>
+        <div style="padding:0 16px; width:100%; display:flex; flex-direction:column; gap:10px;">
+          <button class="btn-primary" onclick="go('screen-payment')">Continuar</button>
+          <button class="btn-dark" onclick="go('screen-ingr-question')">Go Back</button>
+        </div>
+        <div style="height:20px;"></div>
+      </div>
+    </div>
+
+    <!-- PAYMENT METHOD -->
+    <div class="screen" id="screen-payment">
+      <div class="screen-scroll">
+        <div class="logo-header" style="padding-bottom:4px;"><div id="logo-payment"></div></div>
+        <p class="ordering-title" style="font-size:22px;">Forma de Pagamento</p>
+        <div style="width:calc(100% - 32px); margin:0 16px 16px;">
+          <p style="font-size:13px; color:#777; margin-bottom:12px; text-align:center;">Selecione como pretende pagar na entrega:</p>
+          <div style="display:flex; flex-direction:column; gap:10px;" id="payment-options">
+            <div class="payment-option-btn" data-val="Dinheiro" onclick="selectPayment(this)">💵 Dinheiro</div>
+            <div class="payment-option-btn" data-val="Cartão de Crédito" onclick="selectPayment(this)">💳 Cartão de Crédito</div>
+            <div class="payment-option-btn" data-val="Cartão de Débito" onclick="selectPayment(this)">🏦 Cartão de Débito</div>
+            <div class="payment-option-btn" data-val="MB Way" onclick="selectPayment(this)">📱 MB Way</div>
+          </div>
+        </div>
+        <div style="padding:0 16px; width:100%; display:flex; flex-direction:column; gap:10px;">
+          <button class="btn-primary" onclick="confirmOrder()">Confirmar Pedido</button>
+          <button class="btn-dark" onclick="go('screen-summary')">Go Back</button>
+        </div>
+        <div style="height:20px;"></div>
+      </div>
+    </div>
+
+    <!-- ORDER COMPLETE -->
+    <div class="screen" id="screen-complete">
+      <div class="screen-inner" style="justify-content:center; padding:0 24px; gap:0;">
+        <div class="logo-header"><div id="logo-complete"></div></div>
+        <div class="complete-circle">
+          <svg class="checkmark" viewBox="0 0 52 52">
+            <polyline points="14,26 22,34 38,18"/>
+          </svg>
+        </div>
+        <p class="complete-title">Order Complete!</p>
+        <p class="complete-sub">O seu pedido foi recebido e está a ser preparado. O pagamento será efectuado na entrega. 🍕</p>
+        <div style="width:100%; display:flex; flex-direction:column; gap:12px;">
+          <button class="btn-whatsapp" onclick="openWhatsApp()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Falar com Atendente
+          </button>
+          <button class="btn-secondary" onclick="go('screen-home')">Sair</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ORDER STATUS -->
+    <div class="screen" id="screen-status">
+      <div class="screen-scroll">
+        <div class="logo-header"><div id="logo-status"></div></div>
+        <p class="ordering-title" style="font-size:22px;">Estado do Pedido</p>
+        <div class="summary-box" id="status-box">
+          <p style="text-align:center; color:#999; font-size:14px;">Nenhum pedido activo de momento.</p>
+        </div>
+        <div style="padding:0 16px; width:100%;">
+          <button class="btn-dark" onclick="go('screen-home')">Go Back</button>
+        </div>
+        <div style="height:20px;"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<style>
+  .payment-option-btn {
+    padding: 13px 16px;
+    background: #fff;
+    border: 1.5px solid #d4c9a8;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .payment-option-btn:hover { background: #f0e8d0; border-color: #b0a888; }
+  .payment-option-btn.selected { background: #f0f7e8; border-color: #5a7a3a; color: #3a5a1a; }
+</style>
+
+<script>
+const USERS_KEY = 'douro_users';
+const SESSION_KEY = 'douro_session';
+const ORDER_KEY = 'douro_last_order';
+
+const LOGO_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 100">
+  <rect width="260" height="100" rx="24" fill="#fdf8f0"/>
+  <g transform="translate(12 8)">
+    <path d="M28 58c-12 0-18 11-18 18a18 18 0 1036 0c0-7-4-14-10-17l32-14 3-5 10-7 4 5-5 9-16 7-16 8" fill="#7a9a5a"/>
+    <circle cx="26" cy="77" r="13" fill="#5a7a3a"/>
+    <circle cx="26" cy="77" r="6" fill="#fdf8f0"/>
+    <circle cx="66" cy="77" r="13" fill="#5a7a3a"/>
+    <circle cx="66" cy="77" r="6" fill="#fdf8f0"/>
+    <rect x="8" y="40" width="50" height="16" rx="6" fill="#8a3a2a"/>
+    <rect x="54" y="34" width="26" height="10" rx="4" fill="#7a9a5a"/>
+  </g>
+  <text x="130" y="40" text-anchor="middle" font-family="Playfair Display,Georgia,serif" font-size="30" font-weight="900" fill="#8a3a2a">D'Ouro</text>
+  <text x="130" y="64" text-anchor="middle" font-family="Lato,sans-serif" font-size="13" font-weight="700" fill="#5a7a3a" letter-spacing="4">EXPRESS</text>
+</svg>`;
+const LOGO_IMAGE_SRC = 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(LOGO_SVG);
+
+let selectedPizza = null;
+let selectedIngredients = [];
+let selectedPayment = null;
+
+const pizzas = [
+  { name: 'Quattro Fromaggi', desc: 'Dough, Tomato Sauce, Gorgonzola, Parmesan, Fontina, Ricotta, Olive oil.', price: 12, img: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400&q=80' },
+  { name: 'Margherita', desc: 'Dough, Tomato Sauce, Mozzarella, Basil, Olive oil.', price: 12, img: 'https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=400&q=80' },
+  { name: 'Pepperoni', desc: 'Dough, Tomato Sauce, Mozzarella, Pepperoni, Olive Oil.', price: 12, img: 'https://images.unsplash.com/photo-1628840042765-356cda07504e?w=400&q=80' },
+  { name: 'Marinara', desc: 'Dough, Tomato Sauce, Garlic, Oregano, Olive oil.', price: 12, img: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&q=80' },
+  { name: 'Prosciutto e Funghi', desc: 'Tomato sauce, mozzarella, cooked ham (prosciutto cotto), mushrooms, olive oil.', price: 12, img: 'https://images.unsplash.com/photo-1571407970349-bc81e7e96d47?w=400&q=80' },
+];
+
+const ingredients = [
+  { id: 1, name: 'Cheese', price: 1.50, img: 'https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=400&q=80' },
+  { id: 2, name: 'Tomato Sauce', price: 1.50, img: 'https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=400&q=80' },
+  { id: 3, name: 'Bacon', price: 1.50, img: 'https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?w=400&q=80' },
+  { id: 4, name: 'Pepperoni', price: 1.50, img: 'https://images.unsplash.com/photo-1628840042765-356cda07504e?w=400&q=80' },
+  { id: 5, name: 'Cheddar', price: 1.50, img: 'https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=400&q=80' },
+];
+
+function getUsers() { try { return JSON.parse(localStorage.getItem(USERS_KEY) || '{}'); } catch(e) { return {}; } }
+function saveUsers(u) { try { localStorage.setItem(USERS_KEY, JSON.stringify(u)); } catch(e) {} }
+function getSession() { try { return localStorage.getItem(SESSION_KEY); } catch(e) { return null; } }
+function saveSession(e) { try { localStorage.setItem(SESSION_KEY, e); } catch(e2) {} }
+function clearSession() { try { localStorage.removeItem(SESSION_KEY); } catch(e) {} }
+
+function go(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  const el = document.getElementById(id);
+  if (el) { el.classList.add('active'); renderLogos(); }
+  if (id === 'screen-ordering') renderPizzas();
+  if (id === 'screen-ingredients') renderIngredients();
+  if (id === 'screen-summary') renderSummary();
+  if (id === 'screen-status') renderStatus();
+}
+
+function renderLogoSVG(containerId) {
+  const c = document.getElementById(containerId);
+  if (!c || c.querySelector('img')) return;
+  c.innerHTML = `<img src="${LOGO_IMAGE_SRC}" class="logo-header-img" alt="D'Ouro Express">`;
+}
+
+function renderLogos() {
+  ['signup','login','forgot','home','ordering','ingrq','ingr','summary','payment','complete','status'].forEach(id => {
+    renderLogoSVG('logo-' + id);
+  });
+}
+
+function doSignup() {
+  const email = document.getElementById('signup-email').value.trim();
+  const pass = document.getElementById('signup-pass').value;
+  const pass2 = document.getElementById('signup-pass2').value;
+  const err = document.getElementById('signup-error');
+  if (!email || !pass) { err.textContent = 'Por favor preencha todos os campos.'; err.style.display = 'block'; return; }
+  if (pass.length < 6) { err.textContent = 'A password deve ter pelo menos 6 caracteres.'; err.style.display = 'block'; return; }
+  if (pass !== pass2) { err.textContent = 'As passwords não coincidem.'; err.style.display = 'block'; return; }
+  const users = getUsers();
+  if (users[email]) { err.textContent = 'Este e-mail já está registado.'; err.style.display = 'block'; return; }
+  users[email] = pass;
+  saveUsers(users);
+  saveSession(email);
+  err.style.display = 'none';
+  go('screen-home');
+}
+
+function doLogin() {
+  const email = document.getElementById('login-email').value.trim();
+  const pass = document.getElementById('login-pass').value;
+  const err = document.getElementById('login-error');
+  const users = getUsers();
+  if (!users[email] || users[email] !== pass) { err.textContent = 'E-mail ou password incorrectos.'; err.style.display = 'block'; return; }
+  err.style.display = 'none';
+  saveSession(email);
+  go('screen-home');
+}
+
+function doForgot() {
+  const email = document.getElementById('forgot-email').value.trim();
+  const msg = document.getElementById('forgot-msg');
+  const users = getUsers();
+  if (!users[email]) { msg.textContent = 'E-mail não encontrado.'; msg.style.color = '#8a3a2a'; msg.style.display = 'block'; return; }
+  msg.textContent = 'Nova password definida: "12345". Por favor altere após o login.';
+  msg.style.color = '#5a7a3a';
+  msg.style.display = 'block';
+  users[email] = '12345';
+  saveUsers(users);
+}
+
+function doLogout() { clearSession(); go('screen-login'); }
+
+function renderPizzas() {
+  const list = document.getElementById('pizza-list');
+  list.innerHTML = pizzas.map((p, i) => `
+    <div class="pizza-card" onclick="selectPizza(${i})">
+      <img src="${p.img}" alt="${p.name}" onerror="this.style.background='#e8dfc8';this.src=''">
+      <div class="pizza-card-info">
+        <div class="pizza-name">${p.name.toUpperCase()}</div>
+        <div class="pizza-desc">${p.desc}</div>
+        <div class="pizza-price">${p.price}€</div>
+      </div>
+    </div>`).join('');
+}
+
+function selectPizza(i) {
+  selectedPizza = pizzas[i];
+  selectedIngredients = [];
+  go('screen-ingr-question');
+}
+
+function renderIngredients() {
+  const list = document.getElementById('ingr-list');
+  list.innerHTML = ingredients.map(ing => `
+    <div class="ingr-card ${selectedIngredients.find(x=>x.id===ing.id)?'selected':''}" id="ingr-${ing.id}" onclick="toggleIngredient(${ing.id})">
+      <img src="${ing.img}" alt="${ing.name}" style="height:100px;width:100%;object-fit:cover;" onerror="this.style.background='#e8dfc8';this.src=''">
+      <div class="ingr-card-info">
+        <div class="ingr-name">+ ${ing.name.toUpperCase()}</div>
+        <div class="ingr-price">${ing.price.toFixed(2)}€</div>
+      </div>
+    </div>`).join('');
+}
+
+function toggleIngredient(id) {
+  const ing = ingredients.find(x => x.id === id);
+  const idx = selectedIngredients.findIndex(x => x.id === id);
+  if (idx >= 0) { selectedIngredients.splice(idx, 1); }
+  else { selectedIngredients.push(ing); }
+  renderIngredients();
+}
+
+function goToSummary(withIngr) {
+  if (!withIngr) selectedIngredients = [];
+  go('screen-summary');
+}
+
+function renderSummary() {
+  if (!selectedPizza) return;
+  const extra = selectedIngredients.reduce((s, i) => s + i.price, 0);
+  const total = selectedPizza.price + extra;
+  let rows = `<div class="summary-row"><span>${selectedPizza.name}</span><span>${selectedPizza.price.toFixed(2)}€</span></div>`;
+  selectedIngredients.forEach(i => {
+    rows += `<div class="summary-row"><span>+ ${i.name}</span><span>${i.price.toFixed(2)}€</span></div>`;
+  });
+  rows += `<div class="summary-total"><span>Total</span><span>${total.toFixed(2)}€</span></div>`;
+  document.getElementById('summary-box').innerHTML = rows;
+}
+
+function selectPayment(el) {
+  document.querySelectorAll('.payment-option-btn').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedPayment = el.dataset.val;
+}
+
+function confirmOrder() {
+  if (!selectedPayment) { alert('Por favor selecione uma forma de pagamento.'); return; }
+  const extra = selectedIngredients.reduce((s, i) => s + i.price, 0);
+  const total = selectedPizza.price + extra;
+  const order = { pizza: selectedPizza.name, ingredients: selectedIngredients.map(i=>i.name), payment: selectedPayment, total, date: new Date().toLocaleString('pt-PT'), status: 'Em preparação' };
+  try { localStorage.setItem(ORDER_KEY, JSON.stringify(order)); } catch(e) {}
+  go('screen-complete');
+}
+
+function renderStatus() {
+  const box = document.getElementById('status-box');
+  try {
+    const order = JSON.parse(localStorage.getItem(ORDER_KEY));
+    if (order) {
+      box.innerHTML = `
+        <div class="summary-row"><span>Pizza</span><span>${order.pizza}</span></div>
+        ${order.ingredients.length ? `<div class="summary-row"><span>Extras</span><span>${order.ingredients.join(', ')}</span></div>` : ''}
+        <div class="summary-row"><span>Pagamento</span><span>${order.payment}</span></div>
+        <div class="summary-row"><span>Data</span><span>${order.date}</span></div>
+        <div class="summary-total"><span>Total</span><span>${order.total.toFixed(2)}€</span></div>
+        <div style="margin-top:12px;padding:10px;background:#f0f7e8;border-radius:6px;text-align:center;">
+          <span style="color:#3a5a2a;font-weight:700;font-size:14px;">🍕 ${order.status}</span>
+        </div>`;
+    }
+  } catch(e) {}
+}
+
+function openWhatsApp() {
+  const num = '351914332514';
+  const msg = encodeURIComponent('Olá! Gostaria de falar com um atendente sobre o meu pedido na D\'Ouro Express.');
+  window.open('https://wa.me/' + num + '?text=' + msg, '_blank');
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  const splashLogo = document.getElementById('splash-logo-img');
+  if (splashLogo) { splashLogo.src = LOGO_IMAGE_SRC; }
+  renderLogos();
+  setTimeout(() => {
+    try {
+      const session = localStorage.getItem(SESSION_KEY);
+      if (session) { go('screen-home'); }
+      else { go('screen-signup'); }
+    } catch(e) { go('screen-signup'); }
+  }, 2800);
+});
+</script>
